@@ -1,17 +1,20 @@
 var express = require('express');
 var socket = require('socket.io');
 
-// App setyup
+// App setup
 var app = express();
+
 // server
 var server = app.listen(8004, () => {
-  console.log('listen to request on port 8004');
+  // code here
 });
-// static files
-app.use(express.static('public'));
 
 // socket setup
 var io = socket(server);
+
+// static files
+app.use(express.static('public'));
+
 
 io.on('connection', (socket) => {
   console.log('made socket connection', socket.id);

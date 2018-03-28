@@ -1,5 +1,5 @@
 // make connection
-var socket = io.connect('http://192.168.1.13:8004/');
+var socket = io.connect('http://192.168.1.7:8004/');
 
 // query DOM
 var message   = $('#message'),
