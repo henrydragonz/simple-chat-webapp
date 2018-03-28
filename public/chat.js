@@ -1,5 +1,5 @@
 // make connection
-var socket = io.connect('http://192.168.1.7:8004/');
+var socket = io.connect('http://10.1.10.85:4000/');
 
 // query DOM
 var message   = $('#message'),
@@ -7,14 +7,18 @@ var message   = $('#message'),
     btn       = $('#send'),
     output    = $('#output'),
     feedback  = $('#feedback');
+    list      = $('#list');
+    // colors
+    var back = ["blue","gray","red", "orange", "green","pink", "#2b2b2b"];
+    var rand = back[Math.floor(Math.random() * back.length)];
 
 // emit events
 $(btn).on("click", () => {
   socket.emit('chat', {
     message: $(message).val(),
-    handle: $(handle).val()
+    handle: $(handle).val(),
+    color: rand
   });
-  $(message).val("");
 });
 
 // broadcasting
@@ -25,7 +29,15 @@ $(message).on("keypress", () => {
 // listen for events
 socket.on('chat', (data) => {
   $(feedback).html("");
-  $(output).append(`<p><strong> ${data.handle}: </strong> ${data.message} </p>`);
+  $(output)
+  .append($('<p></p>')
+    .append($('<strong></strong>').text(data.handle+': ').css({'color' : data.color}))
+    .append($('<span></span>').text(data.message))
+  );
+  $(list)
+  .append($('<p></p>')
+    .append($('<strong></strong>').text(data.handle).css({'color' : data.color}))
+  );;
 });
 
 // listen broadcast events
@@ -35,3 +47,8 @@ socket.on('typing', (data) => {
     $(feedback).html("");
   }, 4000)
 });
+
+
+// color of names
+
+// $('div').css('background',rand);
